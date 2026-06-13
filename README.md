@@ -47,6 +47,10 @@ the Plugins tab under the Environment Management node as shown and highlighted i
 
 ![Screenshot of Minimal Plugin and Help menu inside SAS Management Console 9.4 M9](minimal-plugin.png)
 
-Select the Help menu and the Help on MinimalPlugin... menu item as shown in the screenshot above.
+Select the Help menu and the *Help on MinimalPlugin...* menu item as shown in the screenshot above.
 It should launch a web browser with the ultimate URL https://documentation.sas.com/doc/en/minimalplugin/version/titlepage.htm
 which will result in an HTTP 404 Page Not Found error.
+This is to be expected as the custom plug-in does not originate from SAS Institute and so
+help documentation would not be found on the documentation.sas.com site.
+It would be useful if an alternative documentation URL could be specified for a custom plugin
+or the *Help on* custom plugin menu item could be removed.
