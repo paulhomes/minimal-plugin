@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="MinimalPlugin" default="compile">
+
+    <property environment="env" />
+
+    <target name="clean" description="Clean the project by removing all derived files">
+        <delete dir="temp" />
+    </target>
+
+    <target name="init">
+        <!--
+            Loads any user-specific properties (loaded first for highest precedence),
+            then loads the main build.properties
+        -->
+        <property file="${user.home}/com.platformadmin.minimalplugin.build.properties" />
+        <property file="build.properties" />
+
+        <echo>**********************************************************************</echo>
+        <echo>Name: ${plugin.name}</echo>
+        <echo>Version: ${plugin.version}</echo>
+        <echo>Copyright (c) ${plugin.copyright}</echo>
+        <echo>JAR: ${plugin.jar.name}</echo>
+        <echo>**********************************************************************</echo>
+        <echo>Environment:</echo>
+        <echo>    ant.home = ${ant.home}</echo>
+        <echo>    ant.version = ${ant.version}</echo>
+        <echo>    ant.java.version = ${ant.java.version}</echo>
+        <echo>    ant.file = ${ant.file}</echo>
+        <echo>    ant.project.name = ${ant.project.name}</echo>
+        <echo>    basedir = ${basedir}</echo>
+        <echo>    java.home = ${java.home}</echo>
+        <echo>    java.version = ${java.version}</echo>
+        <echo>    java.specification.version = ${java.specification.version}</echo>
+        <echo>    java.vm.version = ${java.vm.version}</echo>
+        <echo>    target.jdk.home = ${target.jdk.home}</echo>
+        <echo>**********************************************************************</echo>
+
+        <mkdir dir="temp" />
+        <mkdir dir="temp/build" />
+        <mkdir dir="temp/build/classes" />
+        <mkdir dir="temp/lib" />
+        <mkdir dir="temp/lib/sas94m9" />
+
+        <copy todir="temp/lib/sas94m9">
+            <file file="${sas94m9.vjr.plugins}/sas.framework.workspace_904900.0.0.20250514231719_v940m9/sas.framework.workspace.jar"/>
+            <file file="${sas94m9.vjr.plugins}/sas.smc_904900.0.0.20250514233513_v940m9/sas.smc.jar"/>
+        </copy>
+        <path id="sas94m9.classpath">
+            <fileset dir="temp/lib/sas94m9" includes="*.jar"/>
+        </path>
+    </target>
+
+    <target name="compile" depends="init" description="Compiles the code for the project.">
+        <javac destdir="temp/build/classes"
+               debug="on"
+               optimize="on"
+               deprecation="on"
+               includeAntRuntime="no">
+        <classpath refid="sas94m9.classpath" />
+            <src path="src/java" />
+            <include name="**/*.java" />
+        </javac>
+    </target>
+
+    <patternset id="jar.excludes">
+        <exclude name="**/*.java" />
+        <exclude name="**/overview.html" />
+        <exclude name="**/package.html" />
+        <exclude name="META-INF/**" />
+    </patternset>
+
+    <target name="jar" depends="compile" description="Builds a JAR file of the classes">
+        <jar jarfile="temp/build/lib/plugin.jar">
+            <manifest>
+                <attribute name="Specification-Title" value="${plugin.name}" />
+                <attribute name="Specification-Vendor" value="${plugin.vendor}" />
+                <attribute name="Specification-Version" value="${plugin.version}" />
+                <attribute name="Implementation-Title" value="${plugin.name}" />
+                <attribute name="Implementation-Vendor" value="${plugin.vendor}" />
+                <attribute name="Implementation-Vendor-Id" value="com.platformadmin" />
+                <attribute name="Implementation-Version" value="${plugin.version}" />
+                <attribute name="Copyright" value="${plugin.copyright}" />
+                <attribute name="Plugin-Init" value="com.platformadmin.minimalplugin.MinimalPlugin.class" />
+            </manifest>
+            <fileset dir="src/java">
+                <patternset refid="jar.excludes" />
+            </fileset>
+            <fileset dir="temp/build/classes">
+                <include name="**/*.class" />
+                <patternset refid="jar.excludes" />
+            </fileset>
+        </jar>
+    </target>
+
+    <target name="deploy" depends="clean, jar" description="Deploys the plugin into the local SAS Management Console installation.">
+        <mkdir dir="${sas94m9.sasmc.dir}/plugins/minimal"/>
+        <copy file="temp/build/lib/plugin.jar" tofile="${sas94m9.sasmc.dir}/plugins/minimal/${plugin.jar.name}" overwrite="true"/>
+    </target>
+
+    <target name="undeploy" depends="init" description="Undeploys the plugin from the local SAS Management Console installation.">
+        <delete dir="${sas94m9.sasmc.dir}/plugins/minimal"/>
+    </target>
+
+</project>
