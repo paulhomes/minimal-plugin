@@ -62,4 +62,4 @@ The SAS Hot Fix can be downloaded from https://tshf.sas.com/techsup/download/hot
 
 After applying the hot fix to SAS Management Console, since the minimal plug-in does not yet implement the method getHelpUrl(), SAS Management Console no longer adds a Help Menu action for it:
 
-![Screenshot of Minimal Plugin and Help menu inside SAS Management Console 9.4 M9 with SAS Hot Fix P5Z010 installed](minimal-plugin-with-no-help-menu-action)
+![Screenshot of Minimal Plugin and Help menu inside SAS Management Console 9.4 M9 with SAS Hot Fix P5Z010 installed](minimal-plugin-with-no-help-menu-action.png)
