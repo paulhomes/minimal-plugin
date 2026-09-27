@@ -54,3 +54,12 @@ This is to be expected as the custom plug-in does not originate from SAS Institu
 help documentation would not be found on the documentation.sas.com site.
 It would be useful if an alternative documentation URL could be specified for a custom plugin
 or the *Help on* custom plugin menu item could be removed.
+
+## SAS Hot Fix P5Z010
+
+This issue is now described in *SAS Usage Note KB0060103 Selecting Help in a custom SAS® Management Console plug-in returns “HTTP 404 Page Not Found”* at https://sas.service-now.com/csm/en/selecting-help-in-a-custom-sas-management-console-plug-in-returns-http-404?id=kb_article_view&sysparm_article=KB0060103 and SAS Hot Fix P5Z010 was released on 23Sep2026 to fix it.
+The SAS Hot Fix can be downloaded from https://tshf.sas.com/techsup/download/hotfix/HF2/P5Z.html
+
+After applying the hot fix to SAS Management Console, since the minimal plug-in does not yet implement the method getHelpUrl(), SAS Management Console no longer adds a Help Menu action for it:
+
+![Screenshot of Minimal Plugin and Help menu inside SAS Management Console 9.4 M9 with SAS Hot Fix P5Z010 installed](minimal-plugin-with-no-help-menu-action)
